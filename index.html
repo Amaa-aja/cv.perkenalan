@@ -1,118 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Portofolio</title>
-    <link rel="stylesheet" href="style.css"> <!-- menghubungkan file css-->
+    <title>Cyberpunk Tic Tac Toe</title>
+    <link rel="stylesheet" href="tampilan.css">
+    <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+    <audio id="win-sound" src="sound_menang.mp3" preload="auto"></audio>
+    <audio id="draw-sound" src="draw.mp3" preload="auto"></audio>
+    <!-- Musik untuk lobby -->
+    <audio id="lobby-music" src="lobby.mp3" loop preload="auto"></audio>
 </head>
+
 <body>
-    <nav class="navbar"> <!-- membuat navbar-->
-        <h6 class="email">rajafidhiazka@gmail.com</h6>   <!-- membuat email-->
-        <div class="sosial-media">  <!-- membuat sosial media-->
-            <a href="https://www.instagram.com/rajafidhiazka?igsh=M2l0YTYwZGwzYmM2" target="_blank">Instragam</a> <!-- membuat link sosial media-->
-            <p>/</p>
-            <a href="https://www.linkedin.com/in/raja-fidhiazka-989212347?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BDucdDToER06wrWfB7o64tQ%3D%3D " target="_blank">Linkedin</a>    <!-- membuat link sosial media-->
-            <p>/</p>
-            <a href=".." target="_blank">GitHub</a>    <!-- membuat link sosial media-->
-            
-        </div>
-    </nav>
-    <hr>    <!-- membuat garis-->
-    <section class="hero">  <!-- membuat hero-->  
-        <img src="image/RRAJA13.JPG" alt="hero" class="avatar">  <!-- membuat gambar-->
-        <p>Halo Nama Saya Raja Fidhiazka Pratama</p>  <!-- membuat paragraf-->
-        <h1 class="heading"> Front end Dev  <!-- membuat heading-->
-            <br> Siswa di SMK Telkom purwokerto </h1> 
-        </h1>
-        <a href="assets/CV.RAJA.pdf" class="btn-primary" download="CV">Download CV</a>  <!-- membuat button download pdf-->
-    </section>
+    <div class="container">
+        <h1><span class="highlight">CYBER</span> TIC TAC TOE</h1>
 
-    <section class="client">
-    <!-- <h2>List Client</h2>-->
-    <div class="client-container">
-        <div class="client-list">
-            <!-- Logo asli -->
-            <img src="image/clients/Amazon.png" alt="Amazon" class="client-logo">
-            <img src="image/clients/Google.png" alt="Google" class="client-logo">
-            <img src="image/clients/Microsoft.png" alt="Microsoft" class="client-logo">
-            <img src="image/clients/OpenAi.png" alt="OpenAI" class="client-logo">
-            <img src="image/clients/Deepseek.png" alt="Deepseek" class="client-logo">
-            
-            <!-- Duplikat logo untuk efek infinite -->
-            <img src="image/clients/Amazon.png" alt="Amazon" class="client-logo">
-            <img src="image/clients/Google.png" alt="Google" class="client-logo">
-            <img src="image/clients/Microsoft.png" alt="Microsoft" class="client-logo">
-            <img src="image/clients/OpenAi.png" alt="OpenAI" class="client-logo">
-            <img src="image/clients/Deepseek.png" alt="Deepseek" class="client-logo">
+        <!-- Lobby Screen -->
+        <div id="lobby-screen" class="lobby-screen">
+            <div class="lobby-content">
+                <h2 class="glitch" data-text="WELCOME TO CYBER TIC TAC TOE">
+                    WELCOME TO CYBER TIC TAC TOE
+                </h2>
+                <button id="start-lobby-btn" class="glow-btn">START</button>
+            </div>
         </div>
+        
+        <!-- Mode Selection Screen -->
+        <div id="mode-selection-screen" class="mode-selection-screen" style="display:none;">
+            <div class="mode-selection-content">
+                <h2>PILIH MODE PERMAINAN</h2>
+                <div class="mode-selection">
+                    <button id="play-vs-player" class="glow-btn">PLAYER VS PLAYER</button>
+                    <button id="play-vs-bot" class="glow-btn">PLAYER VS BOT</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Screen (Player vs Player) -->
+        <div id="start-screen" class="start-screen" style="display:none;">
+            <div class="start-content">
+                <h2>MASUKKAN NAMA PEMAIN</h2>
+                <div class="player-inputs">
+                    <label for="playerX">Pemain X</label>
+                    <input type="text" id="playerX" placeholder="Nama Pemain X">
+                    <label for="playerO">Pemain O</label>
+                    <input type="text" id="playerO" placeholder="Nama Pemain O">
+                </div>
+                <div class="button-group">
+                    <button id="back-to-mode-btn" class="back-btn">KEMBALI</button>
+                    <button id="start-btn" class="glow-btn">MULAI GAME</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Start Screen (Player vs Bot) -->
+        <div id="start-screen-bot" class="start-screen" style="display:none;">
+            <div class="start-content">
+                <h2>MASUKKAN NAMA PEMAIN</h2>
+                <div class="player-inputs">
+                    <label for="playerXBot">Pemain X</label>
+                    <input type="text" id="playerXBot" placeholder="Nama Pemain X">
+                    <p>Lawan: Bot (O)</p>
+                </div>
+                <div class="difficulty-selection">
+                    <p>Tingkat Kesulitan:</p>
+                    <div class="difficulty-options">
+                        <button id="easy-mode" class="difficulty-btn selected">Mudah</button>
+                        <button id="hard-mode" class="difficulty-btn">Sulit</button>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="back-to-mode-btn-bot" class="back-btn">KEMBALI</button>
+                    <button id="start-bot-btn" class="glow-btn">MULAI GAME</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Container -->
+        <div id="game-container" style="display: none;">
+            <p id="status">Giliran: X</p>
+            <div id="board"></div>
+            <button id="reset-btn">Restart</button>
+            <button id="openLeaderboard">LEADERBOARD</button>
+            <button id="modeSwitchBtn">Mode: Player vs Player</button>
+
+
+            <!-- Leaderboard -->
+            <div id="mm" class="mm">
+                <div id="leaderboard" class="leaderboard">
+                    <h2>🏆 LEADERBOARD 🏆</h2>
+                    <button id="closeLeaderboard" class="close-btn">❌</button>
+                    <div class="leaderboard-tabs">
+                        <button id="tab-pvp" class="tab-btn active">Player vs Player</button>
+                        <button id="tab-bot" class="tab-btn">Player vs Bot</button>
+                    </div>
+                    <div id="leaderboard-pvp" class="leaderboard-content active">
+                        <h3>Mode Player vs Player</h3>
+                        <ul id="leaderboard-list-pvp"></ul>
+                    </div>
+                    <div id="leaderboard-bot" class="leaderboard-content">
+                        <h3>Mode Player vs Bot</h3>
+                        <ul id="leaderboard-list-bot"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Winner Message -->
+        <div id="winner-message" class="winner-message">
+            <div class="winner-content">
+                <h2 id="winner-text">PEMAIN <span id="winner-player">X</span> MENANG!</h2>
+                <button id="continue-btn" class="glow-btn">LANJUTKAN</button>
+            </div>
+            <div id="fireworks"></div>
+        </div>
+
+        <!-- Draw Message -->
+        <audio id="draw-extra-sound" src="drawsound.mp3" preload="auto"></audio>
+
+        <div id="draw-message" class="winner-message">
+            <div class="winner-content">
+                <h2 id="draw-text">PERMAINAN SERI!</h2>
+                <button id="draw-continue-btn" class="glow-btn">LANJUTKAN</button>
+            </div>
+            <div id="draw-fireworks"></div>
+        </div>
+
+        <script src="tictactoe.js"></script>
     </div>
-</section>
-
-    <section class="skill"> 
-        <h2>My Skils </h2>
-        <div class="skill-list">
-            <div class="skill-card">
-                <img src="image/Skils/html.png" alt="Html logo" class="skill-image"> <!-- membuat gambar-->
-                <h6 class="skill-name">HTML</h6>
-            </div>
-            <div class="skill-card">
-                <img src="image/Skils/css.png" alt="Css logo" class="skill-image"> <!-- membuat gambar-->
-                <h6 class="skill-name">Css</h6>
-            </div>
-            <div class="skill-card">
-                <img src="image/Skils/React.png" alt="React logo" class="skill-image"> <!-- membuat gambar-->
-                <h6 class="skill-name">React</h6>
-            </div>
-        </div>
-    </section>
-
-    <section class="project">
-        <h2>My Project</h2>
-        <div class="project-list">
-            <div class="project-card">
-                <img src="image/my projects/Elumine.png" alt="Project 1" class="project-image"> <!-- membuat gambar-->
-                <h4 class="project-name">Project 1</h4>
-                <p>ini adalah project PAS saya yang sudah di nilai dengan nilai SK</p>
-            </div>
-            <div class="project-card">
-                <img src="image/my projects/AnimeHub.png" alt="Project 2" class="project-image"> <!-- membuat gambar-->
-                <h4 class="project-name">Project 2</h4>
-                <p>Ini adalah project saya yang akan saya kembangakan untuk pengambilan Nilai PTS</p>
-            </div>
-            <div class="project-card">
-                <img src="image/my projects/Project3.png" alt="Project 3" class="project-image"> <!-- membuat gambar-->
-                <h4 class="project-name">Project 3</h4>
-                <p>Ini adalah project saya yang akan saya kembangakan untuk pengambilan Nilai PTS</p>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="contact">
-        <h2>Contact Me</h2>
-        <p>Jl. Prof. Dr. Suharso No.8, Mangunjaya, Purwokerto Lor, Kec. Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah 53113 14430</p>
-        <div class="maps">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15826.117695745259!2d109.2479302887275!3d-7.40650280906849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e655eecd8a2dc41%3A0xd567ef4357a56893!2sGOR%20Satria%20Kota%20Purwokerto!5e0!3m2!1sid!2sid!4v1739090401279!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>"></https:>
-        </div>
-    
-        <div class="sosial-media-contact">
-            <a href="https://www.tiktok.com/@rajanihbozz?_t=ZS-8tkKzvVrR5A&_r=1" target="_blank" class="social-icon">
-                <img src="image/icon/Tiiktok.png" alt="GitHub">
-            </a>
-            <a href="https://www.linkedin.com/in/raja-fidhiazka-989212347?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BDucdDToER06wrWfB7o64tQ%3D%3D " target="_blank" class="social-icon">
-                <img src="image/icon/Linkedin.png" alt="LinkedIn">
-            </a>
-            <a href="https://www.instagram.com/rajafidhiazka?igsh=M2l0YTYwZGwzYmM2" target="_blank" class="social-icon">
-                <img src="image/icon/Instagram.png" alt="Instagram">
-            </a>
-        </div>
-    </section>
-
-    <footer>
-        <p> Copyright 2025 Raja</p>
-    </footer>
-
 </body>
-</html>
 
+</html>
